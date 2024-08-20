@@ -31,6 +31,10 @@ npm start
 
 [sample.json](https://gist.githubusercontent.com/jptmoore/6b357f2c0a7b58d480126463a50f1d7e/raw/48abb5cd16c280d053d81687d8f77345d1c9ba1a/sample.json)
 
+## Todo
+
+Add a command-line parser to customise output
+
 ## License
 
 The project is licensed under the MIT License. For more information, please refer to the [LICENSE](https://github.com/yourusername/csv2iiif/blob/main/LICENSE) file.
