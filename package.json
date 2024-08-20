@@ -1,13 +1,14 @@
 {
-  "name": "manifest",
+  "name": "csv2iiif",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "npx ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "John P. T. Moore",
+  "license": "MIT",
   "description": "",
   "devDependencies": {
     "@types/node": "^22.4.1",
