@@ -1,4 +1,4 @@
-filename
-page1-full.png
-page2-full.png
-page3-full.png
+filename,annotationText
+image1.jpg,This is the annotation for image1.
+image2.jpg,This is the annotation for image2.
+image3.jpg,This is the annotation for image3.

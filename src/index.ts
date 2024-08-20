@@ -40,16 +40,24 @@ interface IIIFAnnotation {
     target: string;
 }
 
-function readFilenamesFromCSV(filePath: string): Promise<string[]> {
+interface FileAnnotation {
+    filename: string;
+    annotationText: string;
+}
+
+function readFilenamesFromCSV(filePath: string): Promise<FileAnnotation[]> {
     return new Promise((resolve, reject) => {
-        const filenames: string[] = [];
+        const fileAnnotations: FileAnnotation[] = [];
         fs.createReadStream(filePath)
             .pipe(csvParser())
             .on('data', (row) => {
-                filenames.push(row.filename);
+                fileAnnotations.push({
+                    filename: row.filename,
+                    annotationText: row.annotationText
+                });
             })
             .on('end', () => {
-                resolve(filenames);
+                resolve(fileAnnotations);
             })
             .on('error', (error) => {
                 reject(error);
@@ -57,8 +65,8 @@ function readFilenamesFromCSV(filePath: string): Promise<string[]> {
     });
 }
 
-function generateManifest(filenames: string[]): IIIFManifest {
-    const canvases: IIIFCanvas[] = filenames.map((filename, index) => ({
+function generateManifest(fileAnnotations: FileAnnotation[]): IIIFManifest {
+    const canvases: IIIFCanvas[] = fileAnnotations.map((fileAnnotation, index) => ({
         id: `https://example.org/iiif/book1/canvas/p${index + 1}`,
         type: "Canvas",
         label: { "en": [`Page ${index + 1}`] },
@@ -74,7 +82,7 @@ function generateManifest(filenames: string[]): IIIFManifest {
                         type: "Annotation",
                         motivation: "painting",
                         body: {
-                            id: `https://example.org/iiif/book1/res/${filename}`,
+                            id: `https://example.org/iiif/book1/res/${fileAnnotation.filename}`,
                             type: "Image",
                             format: "image/png",
                             height: 1800,
@@ -98,7 +106,7 @@ function generateManifest(filenames: string[]): IIIFManifest {
                             id: `https://example.org/iiif/book1/comment/${index + 1}`,
                             type: "TextualBody",
                             format: "text/plain",
-                            value: `This is a comment for page ${index + 1}`
+                            value: fileAnnotation.annotationText
                         },
                         target: `https://example.org/iiif/book1/canvas/p${index + 1}`
                     }
@@ -118,11 +126,11 @@ function generateManifest(filenames: string[]): IIIFManifest {
     return manifest;
 }
 
-const csvFilePath = 'data.csv';
+const csvFilePath = 'examples/data.csv';
 
 readFilenamesFromCSV(csvFilePath)
-    .then((filenames) => {
-        const manifest = generateManifest(filenames);
+    .then((fileAnnotations) => {
+        const manifest = generateManifest(fileAnnotations);
         console.log(JSON.stringify(manifest, null, 2));
     })
     .catch((error) => {
