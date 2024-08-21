@@ -7,7 +7,7 @@
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/csv2iiif.git
+    git clone https://github.com/jptmoore/csv2iiif.git
     cd csv2iiif
     ```
 
